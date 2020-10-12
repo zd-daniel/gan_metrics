@@ -49,7 +49,7 @@ except ImportError:
     # If not tqdm is not available, provide a mock version of it
     def tqdm(x): return x
 
-from pytorch_fid.inception import InceptionV3
+from inception import InceptionV3
 
 
 def parse_arg():
