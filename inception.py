@@ -22,7 +22,7 @@ class InceptionV3(nn.Module):
 
     # Maps feature dimensionality to their output blocks indices
     BLOCK_INDEX_BY_DIM = {
-        64: 0,  # First max pooling features
+        64: 0,   # First max pooling features
         192: 1,  # Second max pooling featurs
         768: 2,  # Pre-aux classifier features
         2048: 3  # Final average pooling features
@@ -35,6 +35,7 @@ class InceptionV3(nn.Module):
                  requires_grad=False,
                  use_fid_inception=True):
         """Build pretrained InceptionV3
+
         Parameters
         ----------
         output_blocks : list of int
@@ -127,11 +128,13 @@ class InceptionV3(nn.Module):
 
     def forward(self, inp):
         """Get Inception feature maps
+
         Parameters
         ----------
         inp : torch.autograd.Variable
             Input tensor of shape Bx3xHxW. Values are expected to be in
             range (0, 1)
+
         Returns
         -------
         List of torch.autograd.Variable, corresponding to the selected output
@@ -162,6 +165,7 @@ class InceptionV3(nn.Module):
 
 def _inception_v3(*args, **kwargs):
     """Wraps `torchvision.models.inception_v3`
+
     Skips default weight inititialization if supported by torchvision version.
     See https://github.com/mseitzer/pytorch-fid/issues/28.
     """
@@ -179,8 +183,10 @@ def _inception_v3(*args, **kwargs):
 
 def fid_inception_v3():
     """Build pretrained Inception model for FID computation
+
     The Inception model for FID computation uses a different set of weights
     and has a slightly different structure than torchvision's Inception.
+
     This method first constructs torchvision's Inception and then patches the
     necessary parts that are different in the FID Inception model.
     """
@@ -204,7 +210,6 @@ def fid_inception_v3():
 
 class FIDInceptionA(torchvision.models.inception.InceptionA):
     """InceptionA block patched for FID computation"""
-
     def __init__(self, in_channels, pool_features):
         super(FIDInceptionA, self).__init__(in_channels, pool_features)
 
@@ -230,7 +235,6 @@ class FIDInceptionA(torchvision.models.inception.InceptionA):
 
 class FIDInceptionC(torchvision.models.inception.InceptionC):
     """InceptionC block patched for FID computation"""
-
     def __init__(self, in_channels, channels_7x7):
         super(FIDInceptionC, self).__init__(in_channels, channels_7x7)
 
@@ -259,7 +263,6 @@ class FIDInceptionC(torchvision.models.inception.InceptionC):
 
 class FIDInceptionE_1(torchvision.models.inception.InceptionE):
     """First InceptionE block patched for FID computation"""
-
     def __init__(self, in_channels):
         super(FIDInceptionE_1, self).__init__(in_channels)
 
@@ -293,7 +296,6 @@ class FIDInceptionE_1(torchvision.models.inception.InceptionE):
 
 class FIDInceptionE_2(torchvision.models.inception.InceptionE):
     """Second InceptionE block patched for FID computation"""
-
     def __init__(self, in_channels):
         super(FIDInceptionE_2, self).__init__(in_channels)
 
