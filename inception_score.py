@@ -15,6 +15,9 @@ from scipy.stats import entropy
 
 import pdb
 
+import os
+os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+
 
 class IgnoreLabelDataset(torch.utils.data.Dataset):
     def __init__(self, orig):
@@ -47,7 +50,7 @@ def inception_score(imgs, batch_size=32, resize=False, splits=1):
     assert N > batch_size
 
     # Set up device
-    device = torch.device("cuda:0" if (torch.cuda.is_available()) else "cpu")
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     # Set up dataloader
     dataloader = torch.utils.data.DataLoader(imgs, batch_size=batch_size)
@@ -89,7 +92,8 @@ def inception_score(imgs, batch_size=32, resize=False, splits=1):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dataroot", type=str, default="./data", help="Root directory for dataset")
+    parser.add_argument("--dataroot", type=str, default="F:/Work/GAN/test_image/",
+                        help="Root directory for dataset")
     opt = parser.parse_args()
 
     dataset = dset.ImageFolder(root=opt.dataroot,
