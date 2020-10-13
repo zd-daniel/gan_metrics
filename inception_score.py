@@ -92,7 +92,7 @@ def inception_score(imgs, batch_size=32, resize=False, splits=1):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dataroot", type=str, default="F:/Work/GAN/test_image/",
+    parser.add_argument("--dataroot", type=str, default="F:/Work/GAN/test_image/real_images/",
                         help="Root directory for dataset")
     opt = parser.parse_args()
 
@@ -102,6 +102,14 @@ if __name__ == '__main__':
                                    transforms.ToTensor(),
                                    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
                                ]))
+
+    # cifar = dset.CIFAR10(root='data/', download=True,
+    #                      transform=transforms.Compose([
+    #                          transforms.Scale(32),
+    #                          transforms.ToTensor(),
+    #                          transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+    #                      ])
+    #                      )
 
     print("Calculating Inception Score...")
     print(inception_score(IgnoreLabelDataset(dataset), batch_size=32, resize=True, splits=10))
