@@ -204,7 +204,7 @@ class MyDataLoader(object):
 
 if __name__ == '__main__':
     ms_ssim = MS_SSIM(max_val=1)
-    root = 'F:/Work/GAN/test_image/ssim_images/'
+    root = 'F:/Work/myGitHub/GAN-ZOO/IntroVAE/samples/rec/'
     image_list = [x for x in os.listdir(root)]
 
     dataset = MyDataset(image_list, root, input_height=None, crop_height=None, output_height=128, is_mirror=False)
@@ -223,3 +223,25 @@ if __name__ == '__main__':
     total_msssim = np.array(total_msssim)
     print(total_msssim)
     print('平均ms_ssim:', np.mean(total_msssim))
+
+    # ms_ssim = MS_SSIM(max_val=1)
+    #
+    # root_path = 'F:/Work/Dataset/celebAHQ/celeba-128/'
+    # rec_path = 'F:/Work/myGitHub/GAN-ZOO/IntroVAE/samples/rec/'
+    # image_list = [x for x in os.listdir(rec_path)]
+    #
+    # target_dataset = MyDataset(image_list, root_path, input_height=None, crop_height=None, output_height=128, is_mirror=False)
+    # target_dataloader = MyDataLoader(target_dataset, 1, drop_last=False, shuffle=False)
+    # rec_dataset = MyDataset(image_list, rec_path, input_height=None, crop_height=None, output_height=128, is_mirror=False)
+    # rec_dataloader = MyDataLoader(rec_dataset, 1, drop_last=False, shuffle=False)
+    #
+    # total_msssim = []
+    # for i in tqdm(range(len(image_list))):
+    #     target = target_dataloader.next().cuda()
+    #     rec = rec_dataloader.next().cuda()
+    #     sub_msssim = ms_ssim(target, rec)
+    #     total_msssim.append(sub_msssim.item())
+    # total_msssim = np.array(total_msssim)
+    # print(total_msssim)
+    # print('平均ms_ssim:', np.mean(total_msssim))
+
