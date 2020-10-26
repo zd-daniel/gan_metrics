@@ -92,7 +92,7 @@ def inception_score(imgs, batch_size=32, resize=False, splits=1):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dataroot", type=str, default="F:/Work/GAN/test_image/real_images/",
+    parser.add_argument("--dataroot", type=str, default="F:/Work/myGitHub/GAN-ZOO/IntroVAE/samples/image/",
                         help="Root directory for dataset")
     opt = parser.parse_args()
 
