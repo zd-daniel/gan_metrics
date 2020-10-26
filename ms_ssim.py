@@ -11,6 +11,7 @@ import torch.nn.functional as F
 from torch.autograd import Variable
 import numpy as np
 from math import exp
+import random
 
 import os
 import torchvision.transforms as transforms
@@ -184,7 +185,7 @@ class MyDataLoader(object):
             data_loader = DataLoader(dataset=self.dataset,
                                      batch_size=self.batch_size,
                                      shuffle=self.shuffle,
-                                     num_workers=12,
+                                     num_workers=4,
                                      pin_memory=True,
                                      drop_last=self.drop_last)
             for images in data_loader:
@@ -204,22 +205,20 @@ class MyDataLoader(object):
 
 if __name__ == '__main__':
     ms_ssim = MS_SSIM(max_val=1)
-    root = 'F:/Work/myGitHub/GAN-ZOO/IntroVAE/samples/rec/'
+    root = 'F:/Work/Dataset/celebA/img_celeba/'
     image_list = [x for x in os.listdir(root)]
+    random.shuffle(image_list)
+    image_list = image_list
 
     dataset = MyDataset(image_list, root, input_height=None, crop_height=None, output_height=128, is_mirror=False)
-    data_loader_1 = MyDataLoader(dataset, 1000, drop_last=False, shuffle=True)
-    data_loader_2 = MyDataLoader(dataset, 1, drop_last=False, shuffle=True)
+    data_loader = MyDataLoader(dataset, 100, drop_last=False, shuffle=True)
 
     total_msssim = []
-    with tqdm(total=len(data_loader_1) * len(data_loader_2)) as pbar:
-        for image_1 in data_loader_1.get_iter():
-            image_1 = image_1.cuda()
-            for image_2 in data_loader_2.get_iter():
-                image_2 = image_2.cuda()
-                sub_msssim = ms_ssim(image_1, image_2)
-                total_msssim.append(sub_msssim.item())
-                pbar.update(1)
+    for i in tqdm(range(10000 // 100)):
+        image_1 = data_loader.next().cuda()
+        image_2 = data_loader.next().cuda()
+        sub_msssim = ms_ssim(image_1, image_2)
+        total_msssim.append(sub_msssim.item())
     total_msssim = np.array(total_msssim)
     print(total_msssim)
     print('平均ms_ssim:', np.mean(total_msssim))
