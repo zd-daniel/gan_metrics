@@ -68,7 +68,7 @@ def parse_arg():
                         help=('Dimensionality of Inception features to use. '
                               'By default, uses pool3 features'))
     parser.add_argument('--path', type=str, nargs=2,
-                        default=['F:/Work/GAN/test_image/real_images/', 'F:/Work/GAN/test_image/fake_images/'],
+                        default=['F:/Work/myGitHub/GAN-ZOO/IntroVAE/samples/real2/', 'F:/Work/myGitHub/GAN-ZOO/IntroVAE/samples/fake2/'],
                         help=('Paths to the generated images or '
                               'to .npz statistic files'))
 
